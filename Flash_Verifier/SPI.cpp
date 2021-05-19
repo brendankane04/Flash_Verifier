@@ -8,30 +8,23 @@
 #include <stdio.h>
 #include <avr/io.h>
 
-#define DDR_SPI DDRC
-#define DD_MOSI 5
-#define DD_MISO 4
-#define DD_SCK 3
+#define DDR_SPI DDRB
+#define CS_FLASH PORTB2
+#define DD_MOSI PORTB3
+#define DD_MISO PORTB4
+#define DD_SCK PORTB5
 
 void SPI_Master_init()
 {
 	//Initialize the MOSI & SCK pins on PORT C
-	DDR_SPI |= _BV(DD_MOSI) | _BV(DD_SCK);
+	DDR_SPI |= _BV(DD_MOSI) | _BV(DD_SCK) ;
 
-	//Enable SPI in master mode & set clock rate to fck/16
+	//Enable SPI in master mode & set clock rate to f_clk/16
+	//Both this device & the flash memory will operate in SPI mode 0
 	SPCR |= _BV(SPE) | _BV(MSTR) | _BV(SPR0);
 }
 
-void SPI_Slave_init()
-{
-	//Set MISO to output & all others to input
-	DDR_SPI = _BV(DD_MISO);
-
-	//Enable SPI & set clock rate to fck/16
-	SPCR |= _BV(SPE) | _BV(SPR0);
-}
-
-void SPI_Master_Transmit(char data)
+void SPI_Master_Tx(char data)
 {
 	//Start the transmission
 	SPDR = data;
@@ -40,10 +33,23 @@ void SPI_Master_Transmit(char data)
 	while(!(SPSR & _BV(SPIF))) {}
 }
 
-char SPI_Slave_Receive()
+char SPI_Master_Rx()
 {
+	//Send a dummy byte
+	SPDR = 0xFF;
+
 	//Wait until data is received
 	while(!(SPSR & _BV(SPIF))) {}
 
 	return SPDR;
+}
+
+void SPI_Select()
+{
+	DDR_SPI &= ~_BV(CS_FLASH);
+}
+
+void SPI_Deselect()
+{
+	DDR_SPI |= _BV(CS_FLASH);
 }
