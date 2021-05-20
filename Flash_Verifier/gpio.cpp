@@ -19,7 +19,7 @@ void GPIO_init()
 	//Initialize the port for blinking as output
 	DDRB |= _BV(PORTB0);
 
-	//Enable the GPIO pin-change interrupt
+	//Enable the GPIO pin-change interrupt on pin 28
 	PCMSK1 |= _BV(PCINT13);
 	PCICR |= _BV(PCIE1);
 	DDRC &= ~_BV(PORTC5);

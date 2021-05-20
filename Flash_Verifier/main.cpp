@@ -10,6 +10,7 @@
 #endif
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include "gpio.h"
 #include "timer.h"
@@ -20,6 +21,9 @@ int main(void)
 	GPIO_init();
 	TIM0_init();
 	//SPI_Master_init();
+
+	//Enable the interrupts
+	sei();
 
 	while(1) 
 	{
