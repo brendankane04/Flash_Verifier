@@ -5,6 +5,8 @@
  *  Author: brend
  */ 
 
+#include <stdio.h>
+#include <inttypes.h>
 #include "SPI.h"
 
 //Device Commands for the SST25VF016B
@@ -31,11 +33,39 @@ void FLASH_init()
 	SPI_Master_init();
 }
 
-char FLASH_Read()
+//Internal function to be used for commands which have addresses
+//WARNING: Does not select/deselect the device on its own
+void FLASH_CMD_ADDR(char cmd, uint32_t addr)
 {
-	
+	SPI_Master_Tx(cmd);
+	SPI_Master_Tx((char) addr >> 16);
+	SPI_Master_Tx((char) addr >>  8);
+	SPI_Master_Tx((char) addr >>  0);
 }
 
+//Read in 1 byte from the flash memory
+char FLASH_Read(uint32_t addr)
+{
+	char output;
+
+	//Ensure address is in range
+	if(addr > 0x1FFFFF)
+		return -1;
+
+	SPI_Select();
+
+	//Interface with the device
+	FLASH_CMD_ADDR(READ, addr);
+
+	output = SPI_Master_Rx();
+
+	//Deselecting the device will end the stream of information coming in
+	SPI_Deselect();
+
+	return output;
+}
+
+//Write in 1 byte to the flash memory
 void FLASH_Write(char data)
 {
 	
