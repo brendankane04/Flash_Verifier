@@ -12,5 +12,7 @@
 extern unsigned char count;
 
 void TIM0_init();
+void TIM0_Disable();
+void TIM0_Enable();
 
 #endif /* TIMER_H_ */
