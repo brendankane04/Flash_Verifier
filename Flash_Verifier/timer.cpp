@@ -6,6 +6,10 @@
  */ 
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include "timer.h"
+
+unsigned char count;
 
 void TIM0_init()
 {
@@ -20,4 +24,13 @@ void TIM0_init()
 	
 	//Set the clock select bits
 	TCCR0B |= 0x02;
+
+	//Initialize the hardware count
+	count = 0;
+}
+
+ISR(TIMER0_COMPA_vect)
+{
+	//Increment the time if it's not max value yet. Else, roll over
+	count = (count == 255) ? 0 : (count + 1);
 }

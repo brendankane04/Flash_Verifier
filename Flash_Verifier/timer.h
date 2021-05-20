@@ -9,6 +9,8 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+extern unsigned char count;
+
 void TIM0_init();
 
 #endif /* TIMER_H_ */

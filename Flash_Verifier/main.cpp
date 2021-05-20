@@ -11,15 +11,15 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "int.h"
 #include "gpio.h"
 #include "timer.h"
+#include "SPI.h"
 
 int main(void)
 {
 	GPIO_init();
 	TIM0_init();
-	int_init();
+	//SPI_Master_init();
 
 	while(1) 
 	{
