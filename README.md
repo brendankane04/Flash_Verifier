@@ -24,3 +24,5 @@ The ATMEGA328p communicates with the flash device via the SPI bus. The ATMEGA328
 **gpio.cpp:59:** A gpio interrupt causes a value to be sent over to flash & a test is done for a roll-over \
 **FLASH_drv.cpp:91:** The value sent over to flash is verified & an error is thrown if the write didn't work.
 
+## IMPORTANT NOTICE
+Due to a lack of hardware, this code was not tested completely. 
