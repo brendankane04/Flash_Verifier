@@ -14,6 +14,7 @@
 #define DD_MISO PORTB4
 #define DD_SCK PORTB5
 
+//Init function
 void SPI_Master_init()
 {
 	//Initialize the MOSI & SCK pins on PORT C
@@ -24,6 +25,7 @@ void SPI_Master_init()
 	SPCR |= _BV(SPE) | _BV(MSTR) | _BV(SPR0);
 }
 
+//Send over a byte of data 
 void SPI_Master_Tx(unsigned char data)
 {
 	//Start the transmission
@@ -33,6 +35,7 @@ void SPI_Master_Tx(unsigned char data)
 	while(!(SPSR & _BV(SPIF))) {}
 }
 
+//Receive a byte of data
 unsigned char SPI_Master_Rx()
 {
 	//Send a dummy byte
@@ -44,11 +47,13 @@ unsigned char SPI_Master_Rx()
 	return (unsigned char) SPDR;
 }
 
+//Pull the 1 CS line low & select a device & begin communication
 void SPI_Select()
 {
 	DDR_SPI &= ~_BV(CS_FLASH);
 }
 
+//Pull the 1 CS line high to deselect a device & end communication
 void SPI_Deselect()
 {
 	DDR_SPI |= _BV(CS_FLASH);
