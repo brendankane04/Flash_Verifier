@@ -13,6 +13,7 @@
 #include "timer.h"
 
 //Device Commands for the SST25VF016B
+//This list of commands can be found on Page 7 of Flash_Datasheet.pdf
 #define READ 0x03
 #define HIGH_SPEED_READ 0x0B
 #define ERASE_4K 0x20
