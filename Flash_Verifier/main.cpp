@@ -15,20 +15,21 @@
 #include "gpio.h"
 #include "timer.h"
 #include "SPI.h"
+#include "FLASH_drv.h"
 
 int main(void)
 {
 	GPIO_init();
 	TIM0_init();
-	//SPI_Master_init();
+	SPI_Master_init();
+	FLASH_init();
 
 	//Enable the interrupts
-	//sei();
+	sei();
 
-	
 	while(1) 
 	{
-		
+
 	}
 }
 
