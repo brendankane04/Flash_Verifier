@@ -7,7 +7,10 @@
 
 #include <stdio.h>
 #include <inttypes.h>
+#include <avr/interrupt.h>
 #include "SPI.h"
+#include "gpio.h"
+#include "timer.h"
 
 //Device Commands for the SST25VF016B
 #define READ 0x03
@@ -28,6 +31,7 @@
 #define EBSY 0x70
 #define DBSY 0x80
 
+//Init function
 void FLASH_init()
 {
 	SPI_Master_init();
@@ -81,6 +85,15 @@ void FLASH_Write(uint32_t addr, unsigned char data)
 	FLASH_CMD_ADDR(BYTE_PRGM, addr);
 	SPI_Master_Tx(data);
 
-	//Deselecting will also 
+	//Deselecting will also  end the write
 	SPI_Deselect();
+
+	//Verify the data sent over is correct
+	if(FLASH_Read(addr) != data)
+	{//The data didn't write properly
+		//Disable the timer, shutdown all interrupts, and display that the program has ended
+		TIM0_Disable();
+		cli();
+		terminal_blink();
+	}
 }
