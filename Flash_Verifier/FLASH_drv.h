@@ -10,7 +10,7 @@
 #define FLASH_DRV_H_
 
 void FLASH_init();
-char FLASH_Read();
-void FLASH_Write(char);
+unsigned char FLASH_Read();
+void FLASH_Write(unsigned char);
 
 #endif /* FLASH_DRV_H_ */

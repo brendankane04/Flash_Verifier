@@ -37,6 +37,6 @@ ISR(PCINT13_vect)
 	//Run only when the signal changes to high
 	if(PORTC & _BV(PORTC5))
 	{
-
+		
 	}
 }

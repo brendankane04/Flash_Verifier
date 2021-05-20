@@ -24,7 +24,7 @@ void SPI_Master_init()
 	SPCR |= _BV(SPE) | _BV(MSTR) | _BV(SPR0);
 }
 
-void SPI_Master_Tx(char data)
+void SPI_Master_Tx(unsigned char data)
 {
 	//Start the transmission
 	SPDR = data;
@@ -33,7 +33,7 @@ void SPI_Master_Tx(char data)
 	while(!(SPSR & _BV(SPIF))) {}
 }
 
-char SPI_Master_Rx()
+unsigned char SPI_Master_Rx()
 {
 	//Send a dummy byte
 	SPDR = 0xFF;
@@ -41,7 +41,7 @@ char SPI_Master_Rx()
 	//Wait until data is received
 	while(!(SPSR & _BV(SPIF))) {}
 
-	return SPDR;
+	return (unsigned char) SPDR;
 }
 
 void SPI_Select()

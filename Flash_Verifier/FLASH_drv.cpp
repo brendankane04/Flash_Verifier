@@ -35,18 +35,18 @@ void FLASH_init()
 
 //Internal function to be used for commands which have addresses
 //WARNING: Does not select/deselect the device on its own
-void FLASH_CMD_ADDR(char cmd, uint32_t addr)
+void FLASH_CMD_ADDR(unsigned char cmd, uint32_t addr)
 {
 	SPI_Master_Tx(cmd);
-	SPI_Master_Tx((char) addr >> 16);
-	SPI_Master_Tx((char) addr >>  8);
-	SPI_Master_Tx((char) addr >>  0);
+	SPI_Master_Tx((unsigned char) (addr >>  0));
+	SPI_Master_Tx((unsigned char) (addr >>  8));
+	SPI_Master_Tx((unsigned char) (addr >> 16));
 }
 
 //Read in 1 byte from the flash memory
-char FLASH_Read(uint32_t addr)
+unsigned char FLASH_Read(uint32_t addr)
 {
-	char output;
+	unsigned char output;
 
 	//Ensure address is in range
 	if(addr > 0x1FFFFF)
@@ -66,7 +66,21 @@ char FLASH_Read(uint32_t addr)
 }
 
 //Write in 1 byte to the flash memory
-void FLASH_Write(char data)
+void FLASH_Write(uint32_t addr, unsigned char data)
 {
-	
+	//Ensuring address is compatible
+	if(addr > 0x1FFFFF)
+		return;
+
+	SPI_Select();
+
+	//It's necessary to set write enable before any writing operation
+	SPI_Master_Tx(WREN);
+
+	//Send over the instruction, the address, then the data
+	FLASH_CMD_ADDR(BYTE_PRGM, addr);
+	SPI_Master_Tx(data);
+
+	//Deselecting will also 
+	SPI_Deselect();
 }

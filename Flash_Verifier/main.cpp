@@ -23,11 +23,12 @@ int main(void)
 	//SPI_Master_init();
 
 	//Enable the interrupts
-	sei();
+	//sei();
 
+	
 	while(1) 
 	{
-
+		
 	}
 }
 
