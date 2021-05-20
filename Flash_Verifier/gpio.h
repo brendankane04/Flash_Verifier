@@ -10,6 +10,8 @@
 #define GPIO_H_
 
 void GPIO_init();
-void blink();
+void activate_LED(char);
+void deactivate_LED(char);
+void terminal_blink();
 
 #endif /* GPIO_H_ */

@@ -13,11 +13,18 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "FLASH_drv.h"
+#include "timer.h"
 
+#define ASSERT_LED PORTB0
+#define ERROR_LED PORTB1
+
+//Init function
 void GPIO_init()
 {
 	//Initialize the port for blinking as output
-	DDRB |= _BV(PORTB0);
+	DDRB |= _BV(ASSERT_LED);
+	DDRB |= _BV(ERROR_LED);
 
 	//Enable the GPIO pin-change interrupt on pin 28
 	PCMSK1 |= _BV(PCINT13);
@@ -25,18 +32,55 @@ void GPIO_init()
 	DDRC &= ~_BV(PORTC5);
 }
 
-void blink()
+//Assert the signal LED
+void activate_LED(char pin)
 {
-	PORTB = ~PORTB;
-	_delay_ms(100);
+	PORTB |= _BV(pin);
+}
+
+//Deassert the signal LED
+void deactivate_LED(char pin)
+{
+	PORTB &= ~_BV(pin);
+}
+
+//Display to the user that a terminal error has occured 
+void terminal_blink()
+{
+	while(1)
+	{
+		activate_LED(ERROR_LED);
+		_delay_ms(100);
+		deactivate_LED(ERROR_LED);
+		_delay_ms(100);
+	}
 }
 
 //GPIO interrupt which sends over the global count to the flash device
-ISR(PCINT13_vect)
+ISR(PCINT1_vect)
 {
+	unsigned char old_val = 0;
+	unsigned char new_val = 0;
+	unsigned char sum = 0;
+
 	//Run only when the signal changes to high
 	if(PORTC & _BV(PORTC5))
 	{
-		
+		old_val = FLASH_Read(0xBEEF);	
+		new_val = count;
+		sum = old_val + new_val;
+
+		if(sum < old_val || sum < new_val)
+		{//If the new value rolls over the value in flash
+			//Signal a roll-over
+			activate_LED(ASSERT_LED);
+		}
+		else
+		{//If the new value doesn't roll over the value in flash
+			//Signal a lack of a roll-over
+			deactivate_LED(ASSERT_LED);
+		}
+
+		FLASH_Write(0xBEEF, new_val);
 	}
 }
