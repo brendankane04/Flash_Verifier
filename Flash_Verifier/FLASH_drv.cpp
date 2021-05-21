@@ -11,6 +11,7 @@
 #include "SPI.h"
 #include "gpio.h"
 #include "timer.h"
+#include "FLASH_drv.h"
 
 //Device Commands for the SST25VF016B
 //This list of commands can be found on Page 7 of Flash_Datasheet.pdf
@@ -33,23 +34,23 @@
 #define DBSY 0x80
 
 //Init function
-void FLASH_init()
+void FLASH::init()
 {
-	SPI_Master_init();
+	SPI::master_init();
 }
 
 //Internal function to be used for commands which have addresses
 //WARNING: Does not select/deselect the device on its own
-void FLASH_CMD_ADDR(unsigned char cmd, uint32_t addr)
+void FLASH::CMD_ADDR(unsigned char cmd, uint32_t addr)
 {
-	SPI_Master_Tx(cmd);
-	SPI_Master_Tx((unsigned char) (addr >>  0));
-	SPI_Master_Tx((unsigned char) (addr >>  8));
-	SPI_Master_Tx((unsigned char) (addr >> 16));
+	SPI::master_Tx(cmd);
+	SPI::master_Tx((unsigned char) (addr >>  0));
+	SPI::master_Tx((unsigned char) (addr >>  8));
+	SPI::master_Tx((unsigned char) (addr >> 16));
 }
 
 //Read in 1 byte from the flash memory
-unsigned char FLASH_Read(uint32_t addr)
+unsigned char FLASH::read(uint32_t addr)
 {
 	unsigned char output;
 
@@ -57,44 +58,44 @@ unsigned char FLASH_Read(uint32_t addr)
 	if(addr > 0x1FFFFF)
 		return -1;
 
-	SPI_Select();
+	SPI::select();
 
 	//Interface with the device
-	FLASH_CMD_ADDR(READ, addr);
+	FLASH::CMD_ADDR(READ, addr);
 
-	output = SPI_Master_Rx();
+	output = SPI::master_Rx();
 
 	//Deselecting the device will end the stream of information coming in
-	SPI_Deselect();
+	SPI::deselect();
 
 	return output;
 }
 
 //Write in 1 byte to the flash memory
-void FLASH_Write(uint32_t addr, unsigned char data)
+void FLASH::write(uint32_t addr, unsigned char data)
 {
 	//Ensuring address is compatible
 	if(addr > 0x1FFFFF)
 		return;
 
-	SPI_Select();
+	SPI::select();
 
 	//It's necessary to set write enable before any writing operation
-	SPI_Master_Tx(WREN);
+	SPI::master_Tx(WREN);
 
 	//Send over the instruction, the address, then the data
-	FLASH_CMD_ADDR(BYTE_PRGM, addr);
-	SPI_Master_Tx(data);
+	CMD_ADDR(BYTE_PRGM, addr);
+	SPI::master_Tx(data);
 
 	//Deselecting will also  end the write
-	SPI_Deselect();
+	SPI::deselect();
 
 	//Verify the data sent over is correct
-	if(FLASH_Read(addr) != data)
+	if(FLASH::read(addr) != data)
 	{//The data didn't write properly
 		//Disable the timer, shutdown all interrupts, and display that the program has ended
-		TIM0_Disable();
+		TIM0.disable();
 		cli();
-		terminal_blink();
+		GPIO::terminal_blink();
 	}
 }

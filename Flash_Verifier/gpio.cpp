@@ -15,12 +15,13 @@
 #include <util/delay.h>
 #include "FLASH_drv.h"
 #include "timer.h"
+#include "gpio.h"
 
 #define ASSERT_LED PORTB0
 #define ERROR_LED PORTB1
 
 //Init function
-void GPIO_init()
+void GPIO::init()
 {
 	//Initialize the port for blinking as output
 	DDRB |= _BV(ASSERT_LED);
@@ -33,19 +34,19 @@ void GPIO_init()
 }
 
 //Assert the signal LED
-void activate_LED(char pin)
+void GPIO::activate_LED(char pin)
 {
 	PORTB |= _BV(pin);
 }
 
 //Deassert the signal LED
-void deactivate_LED(char pin)
+void GPIO::deactivate_LED(char pin)
 {
 	PORTB &= ~_BV(pin);
 }
 
-//Display to the user that a terminal error has occured 
-void terminal_blink()
+//Display to the user that a terminal error has occurred 
+void GPIO::terminal_blink()
 {
 	while(1)
 	{
@@ -66,21 +67,21 @@ ISR(PCINT1_vect)
 	//Run only when the signal changes to high
 	if(PORTC & _BV(PORTC5))
 	{
-		old_val = FLASH_Read(0xBEEF);	
-		new_val = count;
+		old_val = FLASH::read(0xBEEF);	
+		new_val = TIM0.get_count();
 		sum = old_val + new_val;
 
 		if(sum < old_val || sum < new_val)
 		{//If the new value rolls over the value in flash
 			//Signal a roll-over
-			activate_LED(ASSERT_LED);
+			GPIO::activate_LED(ASSERT_LED);
 		}
 		else
 		{//If the new value doesn't roll over the value in flash
 			//Signal a lack of a roll-over
-			deactivate_LED(ASSERT_LED);
+			GPIO::deactivate_LED(ASSERT_LED);
 		}
 
-		FLASH_Write(0xBEEF, new_val);
+		FLASH::write(0xBEEF, new_val);
 	}
 }

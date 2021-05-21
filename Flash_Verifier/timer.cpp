@@ -10,10 +10,10 @@
 #include <avr/interrupt.h>
 #include "timer.h"
 
-unsigned char count;
+Timer TIM0;
 
 //Init function
-void TIM0_init()
+void Timer::init()
 {
 	//Set mode to count-to-compare
 	TCCR0A |= _BV(WGM01);
@@ -32,20 +32,32 @@ void TIM0_init()
 }
 
 //Disable the timer
-void TIM0_Disable()
+ void Timer::disable()
 {
 	TCCR0B &= ~_BV(CS01);
 }
 
 //Enable the timer
-void TIM0_Enable()
+void Timer::enable()
 {
 	TCCR0B |= _BV(CS01);
+}
+
+//Increment the time if it's not max value yet. Else, roll over
+void Timer::inc_count()
+{
+	TIM0.count = (TIM0.count != 255) ? (TIM0.count + 1) : 0;
+}
+
+//Get method
+unsigned char Timer::get_count()
+{
+	return count;
 }
 
 //Interrupt which activates on the hardware timer ticks
 ISR(TIMER0_COMPA_vect)
 {
-	//Increment the time if it's not max value yet. Else, roll over
-	count = (count != 255) ? (count + 1) : 0;
+	TIM0.inc_count();
 }
+

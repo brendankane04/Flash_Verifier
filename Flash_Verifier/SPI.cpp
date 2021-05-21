@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <avr/io.h>
+#include "SPI.h"
 
 #define DDR_SPI DDRB
 #define CS_FLASH PORTB2
@@ -15,7 +16,7 @@
 #define DD_SCK PORTB5
 
 //Init function
-void SPI_Master_init()
+void SPI::master_init()
 {
 	//Initialize the MOSI & SCK pins on PORT C
 	DDR_SPI |= _BV(DD_MOSI) | _BV(DD_SCK) ;
@@ -26,7 +27,7 @@ void SPI_Master_init()
 }
 
 //Send over a byte of data 
-void SPI_Master_Tx(unsigned char data)
+void SPI::master_Tx(unsigned char data)
 {
 	//Start the transmission
 	SPDR = data;
@@ -36,7 +37,7 @@ void SPI_Master_Tx(unsigned char data)
 }
 
 //Receive a byte of data
-unsigned char SPI_Master_Rx()
+unsigned char SPI::master_Rx()
 {
 	//Send a dummy byte
 	SPDR = 0xFF;
@@ -48,13 +49,13 @@ unsigned char SPI_Master_Rx()
 }
 
 //Pull the 1 CS line low & select a device & begin communication
-void SPI_Select()
+void SPI::select()
 {
 	DDR_SPI &= ~_BV(CS_FLASH);
 }
 
 //Pull the 1 CS line high to deselect a device & end communication
-void SPI_Deselect()
+void SPI::deselect()
 {
 	DDR_SPI |= _BV(CS_FLASH);
 }

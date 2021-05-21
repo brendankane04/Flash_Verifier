@@ -19,10 +19,10 @@
 
 int main(void)
 {
-	GPIO_init();
-	TIM0_init();
-	SPI_Master_init();
-	FLASH_init();
+	GPIO::init();
+	TIM0.init();
+	SPI::master_init();
+	FLASH::init();
 
 	//Enable the interrupts
 	sei();

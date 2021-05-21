@@ -9,8 +9,14 @@
 #ifndef FLASH_DRV_H_
 #define FLASH_DRV_H_
 
-void FLASH_init();
-unsigned char FLASH_Read(uint32_t);
-void FLASH_Write(uint32_t, unsigned char);
+class FLASH
+{
+	static void CMD_ADDR(unsigned char, uint32_t);
+
+	public:
+		static void init();
+		static unsigned char read(uint32_t);
+		static void write(uint32_t, unsigned char);
+};
 
 #endif /* FLASH_DRV_H_ */

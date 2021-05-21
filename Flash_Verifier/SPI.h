@@ -9,10 +9,14 @@
 #ifndef SPI_H_
 #define SPI_H_
 
-void SPI_Master_init();
-void SPI_Master_Tx(unsigned char);
-unsigned char SPI_Master_Rx();
-void SPI_Select();
-void SPI_Deselect();
+class SPI 
+{
+	public:
+		static void master_init();
+		static void master_Tx(unsigned char);
+		static unsigned char master_Rx();
+		static void select();
+		static void deselect();
+};
 
 #endif /* SPI_H_ */

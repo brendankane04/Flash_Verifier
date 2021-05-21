@@ -9,10 +9,18 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-extern unsigned char count;
+class Timer
+{
+	unsigned char count;
 
-void TIM0_init();
-void TIM0_Disable();
-void TIM0_Enable();
+	public:
+		void init();
+		void disable();
+		void enable();
+		void inc_count();
+		unsigned char get_count();
+};
+
+extern Timer TIM0;
 
 #endif /* TIMER_H_ */
