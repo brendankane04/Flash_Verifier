@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000120  00000000  00000000  0000043c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001427  00000000  00000000  0000055c  2**0
+  6 .debug_info   00001482  00000000  00000000  0000055c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000ca4  00000000  00000000  00001983  2**0
+  7 .debug_abbrev 00000d46  00000000  00000000  000019de  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000076f  00000000  00000000  00002627  2**0
+  8 .debug_line   0000077d  00000000  00000000  00002724  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000028c  00000000  00000000  00002d98  2**2
+  9 .debug_frame  0000028c  00000000  00000000  00002ea4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000063a  00000000  00000000  00003024  2**0
+ 10 .debug_str    00000783  00000000  00000000  00003130  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000559  00000000  00000000  0000365e  2**0
+ 11 .debug_loc    00000559  00000000  00000000  000038b3  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000d0  00000000  00000000  00003bb7  2**0
+ 12 .debug_ranges 000000d0  00000000  00000000  00003e0c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -87,173 +87,173 @@ Disassembly of section .text:
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000090 <_ZN5FLASH4initEv>:
-#define DBSY 0x80
-
-//Init function
-void FLASH::init()
-{
-	SPI::master_init();
-  90:	0e 94 48 01 	call	0x290	; 0x290 <_ZN3SPI11master_initEv>
+00000090 <_ZN14Flash_Verifier5FLASH4initEv>:
+	#define DBSY 0x80
+	
+	//Init function
+	void FLASH::init()
+	{
+		SPI::master_init();
+  90:	0e 94 48 01 	call	0x290	; 0x290 <_ZN14Flash_Verifier3SPI11master_initEv>
   94:	08 95       	ret
 
-00000096 <_ZN5FLASH8CMD_ADDREhm>:
-}
-
-//Internal function to be used for commands which have addresses
-//WARNING: Does not select/deselect the device on its own
-void FLASH::CMD_ADDR(unsigned char cmd, uint32_t addr)
-{
+00000096 <_ZN14Flash_Verifier5FLASH8CMD_ADDREhm>:
+	}
+	
+	//Internal function to be used for commands which have addresses
+	//WARNING: Does not select/deselect the device on its own
+	void FLASH::CMD_ADDR(unsigned char cmd, uint32_t addr)
+	{
   96:	1f 93       	push	r17
   98:	cf 93       	push	r28
   9a:	df 93       	push	r29
   9c:	14 2f       	mov	r17, r20
   9e:	d5 2f       	mov	r29, r21
   a0:	c6 2f       	mov	r28, r22
-	SPI::master_Tx(cmd);
-  a2:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN3SPI9master_TxEh>
-	SPI::master_Tx((unsigned char) (addr >>  0));
+		SPI::master_Tx(cmd);
+  a2:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN14Flash_Verifier3SPI9master_TxEh>
+		SPI::master_Tx((unsigned char) (addr >>  0));
   a6:	81 2f       	mov	r24, r17
-  a8:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN3SPI9master_TxEh>
-	SPI::master_Tx((unsigned char) (addr >>  8));
+  a8:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN14Flash_Verifier3SPI9master_TxEh>
+		SPI::master_Tx((unsigned char) (addr >>  8));
   ac:	8d 2f       	mov	r24, r29
-  ae:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN3SPI9master_TxEh>
-	SPI::master_Tx((unsigned char) (addr >> 16));
+  ae:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN14Flash_Verifier3SPI9master_TxEh>
+		SPI::master_Tx((unsigned char) (addr >> 16));
   b2:	8c 2f       	mov	r24, r28
-  b4:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN3SPI9master_TxEh>
-}
+  b4:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN14Flash_Verifier3SPI9master_TxEh>
+	}
   b8:	df 91       	pop	r29
   ba:	cf 91       	pop	r28
   bc:	1f 91       	pop	r17
   be:	08 95       	ret
 
-000000c0 <_ZN5FLASH4readEm>:
-
-//Read in 1 byte from the flash memory
-unsigned char FLASH::read(uint32_t addr)
-{
+000000c0 <_ZN14Flash_Verifier5FLASH4readEm>:
+	
+	//Read in 1 byte from the flash memory
+	unsigned char FLASH::read(uint32_t addr)
+	{
   c0:	cf 92       	push	r12
   c2:	df 92       	push	r13
   c4:	ef 92       	push	r14
   c6:	ff 92       	push	r15
-	unsigned char output;
-
-	//Ensure address is in range
-	if(addr > 0x1FFFFF)
+		unsigned char output;
+	
+		//Ensure address is in range
+		if(addr > 0x1FFFFF)
   c8:	61 15       	cp	r22, r1
   ca:	71 05       	cpc	r23, r1
   cc:	20 e2       	ldi	r18, 0x20	; 32
   ce:	82 07       	cpc	r24, r18
   d0:	91 05       	cpc	r25, r1
-  d2:	80 f4       	brcc	.+32     	; 0xf4 <_ZN5FLASH4readEm+0x34>
+  d2:	80 f4       	brcc	.+32     	; 0xf4 <_ZN14Flash_Verifier5FLASH4readEm+0x34>
   d4:	6b 01       	movw	r12, r22
   d6:	7c 01       	movw	r14, r24
-		return -1;
-
-	SPI::select();
-  d8:	0e 94 5b 01 	call	0x2b6	; 0x2b6 <_ZN3SPI6selectEv>
-
-	//Interface with the device
-	FLASH::CMD_ADDR(READ, addr);
+			return -1;
+	
+		SPI::select();
+  d8:	0e 94 5b 01 	call	0x2b6	; 0x2b6 <_ZN14Flash_Verifier3SPI6selectEv>
+	
+		//Interface with the device
+		FLASH::CMD_ADDR(READ, addr);
   dc:	b7 01       	movw	r22, r14
   de:	a6 01       	movw	r20, r12
   e0:	83 e0       	ldi	r24, 0x03	; 3
-  e2:	0e 94 4b 00 	call	0x96	; 0x96 <_ZN5FLASH8CMD_ADDREhm>
-
-	output = SPI::master_Rx();
-  e6:	0e 94 54 01 	call	0x2a8	; 0x2a8 <_ZN3SPI9master_RxEv>
+  e2:	0e 94 4b 00 	call	0x96	; 0x96 <_ZN14Flash_Verifier5FLASH8CMD_ADDREhm>
+	
+		output = SPI::master_Rx();
+  e6:	0e 94 54 01 	call	0x2a8	; 0x2a8 <_ZN14Flash_Verifier3SPI9master_RxEv>
   ea:	f8 2e       	mov	r15, r24
-
-	//Deselecting the device will end the stream of information coming in
-	SPI::deselect();
-  ec:	0e 94 5f 01 	call	0x2be	; 0x2be <_ZN3SPI8deselectEv>
-
-	return output;
+	
+		//Deselecting the device will end the stream of information coming in
+		SPI::deselect();
+  ec:	0e 94 5f 01 	call	0x2be	; 0x2be <_ZN14Flash_Verifier3SPI8deselectEv>
+	
+		return output;
   f0:	8f 2d       	mov	r24, r15
-  f2:	01 c0       	rjmp	.+2      	; 0xf6 <_ZN5FLASH4readEm+0x36>
-{
-	unsigned char output;
-
-	//Ensure address is in range
-	if(addr > 0x1FFFFF)
-		return -1;
+  f2:	01 c0       	rjmp	.+2      	; 0xf6 <_ZN14Flash_Verifier5FLASH4readEm+0x36>
+	{
+		unsigned char output;
+	
+		//Ensure address is in range
+		if(addr > 0x1FFFFF)
+			return -1;
   f4:	8f ef       	ldi	r24, 0xFF	; 255
-
-	//Deselecting the device will end the stream of information coming in
-	SPI::deselect();
-
-	return output;
-}
+	
+		//Deselecting the device will end the stream of information coming in
+		SPI::deselect();
+	
+		return output;
+	}
   f6:	ff 90       	pop	r15
   f8:	ef 90       	pop	r14
   fa:	df 90       	pop	r13
   fc:	cf 90       	pop	r12
   fe:	08 95       	ret
 
-00000100 <_ZN5FLASH5writeEmh>:
-
-//Write in 1 byte to the flash memory
-void FLASH::write(uint32_t addr, unsigned char data)
-{
+00000100 <_ZN14Flash_Verifier5FLASH5writeEmh>:
+	
+	//Write in 1 byte to the flash memory
+	void FLASH::write(uint32_t addr, unsigned char data)
+	{
  100:	cf 92       	push	r12
  102:	df 92       	push	r13
  104:	ef 92       	push	r14
  106:	ff 92       	push	r15
  108:	cf 93       	push	r28
-	//Ensuring address is compatible
-	if(addr > 0x1FFFFF)
+		//Ensuring address is compatible
+		if(addr > 0x1FFFFF)
  10a:	61 15       	cp	r22, r1
  10c:	71 05       	cpc	r23, r1
  10e:	20 e2       	ldi	r18, 0x20	; 32
  110:	82 07       	cpc	r24, r18
  112:	91 05       	cpc	r25, r1
- 114:	f8 f4       	brcc	.+62     	; 0x154 <_ZN5FLASH5writeEmh+0x54>
+ 114:	f8 f4       	brcc	.+62     	; 0x154 <_ZN14Flash_Verifier5FLASH5writeEmh+0x54>
  116:	c4 2f       	mov	r28, r20
  118:	6b 01       	movw	r12, r22
  11a:	7c 01       	movw	r14, r24
-		return;
-
-	SPI::select();
- 11c:	0e 94 5b 01 	call	0x2b6	; 0x2b6 <_ZN3SPI6selectEv>
-
-	//It's necessary to set write enable before any writing operation
-	SPI::master_Tx(WREN);
+			return;
+	
+		SPI::select();
+ 11c:	0e 94 5b 01 	call	0x2b6	; 0x2b6 <_ZN14Flash_Verifier3SPI6selectEv>
+	
+		//It's necessary to set write enable before any writing operation
+		SPI::master_Tx(WREN);
  120:	86 e0       	ldi	r24, 0x06	; 6
- 122:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN3SPI9master_TxEh>
-
-	//Send over the instruction, the address, then the data
-	CMD_ADDR(BYTE_PRGM, addr);
+ 122:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN14Flash_Verifier3SPI9master_TxEh>
+	
+		//Send over the instruction, the address, then the data
+		CMD_ADDR(BYTE_PRGM, addr);
  126:	b7 01       	movw	r22, r14
  128:	a6 01       	movw	r20, r12
  12a:	82 e0       	ldi	r24, 0x02	; 2
- 12c:	0e 94 4b 00 	call	0x96	; 0x96 <_ZN5FLASH8CMD_ADDREhm>
-	SPI::master_Tx(data);
+ 12c:	0e 94 4b 00 	call	0x96	; 0x96 <_ZN14Flash_Verifier5FLASH8CMD_ADDREhm>
+		SPI::master_Tx(data);
  130:	8c 2f       	mov	r24, r28
- 132:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN3SPI9master_TxEh>
-
-	//Deselecting will also  end the write
-	SPI::deselect();
- 136:	0e 94 5f 01 	call	0x2be	; 0x2be <_ZN3SPI8deselectEv>
-
-	//Verify the data sent over is correct
-	if(FLASH::read(addr) != data)
+ 132:	0e 94 4f 01 	call	0x29e	; 0x29e <_ZN14Flash_Verifier3SPI9master_TxEh>
+	
+		//Deselecting will also  end the write
+		SPI::deselect();
+ 136:	0e 94 5f 01 	call	0x2be	; 0x2be <_ZN14Flash_Verifier3SPI8deselectEv>
+	
+		//Verify the data sent over is correct
+		if(FLASH::read(addr) != data)
  13a:	c7 01       	movw	r24, r14
  13c:	b6 01       	movw	r22, r12
- 13e:	0e 94 60 00 	call	0xc0	; 0xc0 <_ZN5FLASH4readEm>
+ 13e:	0e 94 60 00 	call	0xc0	; 0xc0 <_ZN14Flash_Verifier5FLASH4readEm>
  142:	c8 17       	cp	r28, r24
- 144:	39 f0       	breq	.+14     	; 0x154 <_ZN5FLASH5writeEmh+0x54>
-	{//The data didn't write properly
-		//Disable the timer, shutdown all interrupts, and display that the program has ended
-		TIM0.disable();
+ 144:	39 f0       	breq	.+14     	; 0x154 <_ZN14Flash_Verifier5FLASH5writeEmh+0x54>
+		{//The data didn't write properly
+			//Disable the timer, shutdown all interrupts, and display that the program has ended
+			TIM0.disable();
  146:	80 e0       	ldi	r24, 0x00	; 0
  148:	91 e0       	ldi	r25, 0x01	; 1
- 14a:	0e 94 73 01 	call	0x2e6	; 0x2e6 <_ZN5Timer7disableEv>
-		cli();
+ 14a:	0e 94 73 01 	call	0x2e6	; 0x2e6 <_ZN14Flash_Verifier5Timer7disableEv>
+			cli();
  14e:	f8 94       	cli
-		GPIO::terminal_blink();
- 150:	0e 94 db 00 	call	0x1b6	; 0x1b6 <_ZN4GPIO14terminal_blinkEv>
+			GPIO::terminal_blink();
+ 150:	0e 94 db 00 	call	0x1b6	; 0x1b6 <_ZN14Flash_Verifier4GPIO14terminal_blinkEv>
+		}
 	}
-}
  154:	cf 91       	pop	r28
  156:	ff 90       	pop	r15
  158:	ef 90       	pop	r14
@@ -261,88 +261,88 @@ void FLASH::write(uint32_t addr, unsigned char data)
  15c:	cf 90       	pop	r12
  15e:	08 95       	ret
 
-00000160 <_ZN4GPIO4initEv>:
-
-//Init function
-void GPIO::init()
-{
-	//Initialize the port for blinking as output
-	DDRB |= _BV(ASSERT_LED);
+00000160 <_ZN14Flash_Verifier4GPIO4initEv>:
+	
+	//Init function
+	void GPIO::init()
+	{
+		//Initialize the port for blinking as output
+		DDRB |= _BV(ASSERT_LED);
  160:	84 b1       	in	r24, 0x04	; 4
  162:	81 60       	ori	r24, 0x01	; 1
  164:	84 b9       	out	0x04, r24	; 4
-	DDRB |= _BV(ERROR_LED);
+		DDRB |= _BV(ERROR_LED);
  166:	84 b1       	in	r24, 0x04	; 4
  168:	82 60       	ori	r24, 0x02	; 2
  16a:	84 b9       	out	0x04, r24	; 4
-
-	//Enable the GPIO pin-change interrupt on pin 28
-	PCMSK1 |= _BV(PCINT13);
+	
+		//Enable the GPIO pin-change interrupt on pin 28
+		PCMSK1 |= _BV(PCINT13);
  16c:	ec e6       	ldi	r30, 0x6C	; 108
  16e:	f0 e0       	ldi	r31, 0x00	; 0
  170:	80 81       	ld	r24, Z
  172:	80 62       	ori	r24, 0x20	; 32
  174:	80 83       	st	Z, r24
-	PCICR |= _BV(PCIE1);
+		PCICR |= _BV(PCIE1);
  176:	e8 e6       	ldi	r30, 0x68	; 104
  178:	f0 e0       	ldi	r31, 0x00	; 0
  17a:	80 81       	ld	r24, Z
  17c:	82 60       	ori	r24, 0x02	; 2
  17e:	80 83       	st	Z, r24
-	DDRC &= ~_BV(PORTC5);
+		DDRC &= ~_BV(PORTC5);
  180:	87 b1       	in	r24, 0x07	; 7
  182:	8f 7d       	andi	r24, 0xDF	; 223
  184:	87 b9       	out	0x07, r24	; 7
  186:	08 95       	ret
 
-00000188 <_ZN4GPIO12activate_LEDEc>:
-}
-
-//Assert the signal LED
-void GPIO::activate_LED(char pin)
-{
-	PORTB |= _BV(pin);
+00000188 <_ZN14Flash_Verifier4GPIO12activate_LEDEc>:
+	}
+	
+	//Assert the signal LED
+	void GPIO::activate_LED(char pin)
+	{
+		PORTB |= _BV(pin);
  188:	95 b1       	in	r25, 0x05	; 5
  18a:	21 e0       	ldi	r18, 0x01	; 1
  18c:	30 e0       	ldi	r19, 0x00	; 0
- 18e:	02 c0       	rjmp	.+4      	; 0x194 <_ZN4GPIO12activate_LEDEc+0xc>
+ 18e:	02 c0       	rjmp	.+4      	; 0x194 <_ZN14Flash_Verifier4GPIO12activate_LEDEc+0xc>
  190:	22 0f       	add	r18, r18
  192:	33 1f       	adc	r19, r19
  194:	8a 95       	dec	r24
- 196:	e2 f7       	brpl	.-8      	; 0x190 <_ZN4GPIO12activate_LEDEc+0x8>
+ 196:	e2 f7       	brpl	.-8      	; 0x190 <_ZN14Flash_Verifier4GPIO12activate_LEDEc+0x8>
  198:	29 2b       	or	r18, r25
  19a:	25 b9       	out	0x05, r18	; 5
  19c:	08 95       	ret
 
-0000019e <_ZN4GPIO14deactivate_LEDEc>:
-}
-
-//Deassert the signal LED
-void GPIO::deactivate_LED(char pin)
-{
-	PORTB &= ~_BV(pin);
+0000019e <_ZN14Flash_Verifier4GPIO14deactivate_LEDEc>:
+	}
+	
+	//Deassert the signal LED
+	void GPIO::deactivate_LED(char pin)
+	{
+		PORTB &= ~_BV(pin);
  19e:	95 b1       	in	r25, 0x05	; 5
  1a0:	21 e0       	ldi	r18, 0x01	; 1
  1a2:	30 e0       	ldi	r19, 0x00	; 0
- 1a4:	02 c0       	rjmp	.+4      	; 0x1aa <_ZN4GPIO14deactivate_LEDEc+0xc>
+ 1a4:	02 c0       	rjmp	.+4      	; 0x1aa <_ZN14Flash_Verifier4GPIO14deactivate_LEDEc+0xc>
  1a6:	22 0f       	add	r18, r18
  1a8:	33 1f       	adc	r19, r19
  1aa:	8a 95       	dec	r24
- 1ac:	e2 f7       	brpl	.-8      	; 0x1a6 <_ZN4GPIO14deactivate_LEDEc+0x8>
+ 1ac:	e2 f7       	brpl	.-8      	; 0x1a6 <_ZN14Flash_Verifier4GPIO14deactivate_LEDEc+0x8>
  1ae:	20 95       	com	r18
  1b0:	29 23       	and	r18, r25
  1b2:	25 b9       	out	0x05, r18	; 5
  1b4:	08 95       	ret
 
-000001b6 <_ZN4GPIO14terminal_blinkEv>:
-//Display to the user that a terminal error has occurred 
-void GPIO::terminal_blink()
-{
-	while(1)
+000001b6 <_ZN14Flash_Verifier4GPIO14terminal_blinkEv>:
+	//Display to the user that a terminal error has occurred 
+	void GPIO::terminal_blink()
 	{
-		activate_LED(ERROR_LED);
+		while(1)
+		{
+			activate_LED(ERROR_LED);
  1b6:	81 e0       	ldi	r24, 0x01	; 1
- 1b8:	0e 94 c4 00 	call	0x188	; 0x188 <_ZN4GPIO12activate_LEDEc>
+ 1b8:	0e 94 c4 00 	call	0x188	; 0x188 <_ZN14Flash_Verifier4GPIO12activate_LEDEc>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -355,31 +355,31 @@ void GPIO::terminal_blink()
  1c2:	21 50       	subi	r18, 0x01	; 1
  1c4:	80 40       	sbci	r24, 0x00	; 0
  1c6:	90 40       	sbci	r25, 0x00	; 0
- 1c8:	e1 f7       	brne	.-8      	; 0x1c2 <_ZN4GPIO14terminal_blinkEv+0xc>
- 1ca:	00 c0       	rjmp	.+0      	; 0x1cc <_ZN4GPIO14terminal_blinkEv+0x16>
+ 1c8:	e1 f7       	brne	.-8      	; 0x1c2 <_ZN14Flash_Verifier4GPIO14terminal_blinkEv+0xc>
+ 1ca:	00 c0       	rjmp	.+0      	; 0x1cc <_ZN14Flash_Verifier4GPIO14terminal_blinkEv+0x16>
  1cc:	00 00       	nop
-		_delay_ms(100);
-		deactivate_LED(ERROR_LED);
+			_delay_ms(100);
+			deactivate_LED(ERROR_LED);
  1ce:	81 e0       	ldi	r24, 0x01	; 1
- 1d0:	0e 94 cf 00 	call	0x19e	; 0x19e <_ZN4GPIO14deactivate_LEDEc>
+ 1d0:	0e 94 cf 00 	call	0x19e	; 0x19e <_ZN14Flash_Verifier4GPIO14deactivate_LEDEc>
  1d4:	2f ef       	ldi	r18, 0xFF	; 255
  1d6:	81 ee       	ldi	r24, 0xE1	; 225
  1d8:	94 e0       	ldi	r25, 0x04	; 4
  1da:	21 50       	subi	r18, 0x01	; 1
  1dc:	80 40       	sbci	r24, 0x00	; 0
  1de:	90 40       	sbci	r25, 0x00	; 0
- 1e0:	e1 f7       	brne	.-8      	; 0x1da <_ZN4GPIO14terminal_blinkEv+0x24>
- 1e2:	00 c0       	rjmp	.+0      	; 0x1e4 <_ZN4GPIO14terminal_blinkEv+0x2e>
+ 1e0:	e1 f7       	brne	.-8      	; 0x1da <_ZN14Flash_Verifier4GPIO14terminal_blinkEv+0x24>
+ 1e2:	00 c0       	rjmp	.+0      	; 0x1e4 <_ZN14Flash_Verifier4GPIO14terminal_blinkEv+0x2e>
  1e4:	00 00       	nop
- 1e6:	e7 cf       	rjmp	.-50     	; 0x1b6 <_ZN4GPIO14terminal_blinkEv>
+ 1e6:	e7 cf       	rjmp	.-50     	; 0x1b6 <_ZN14Flash_Verifier4GPIO14terminal_blinkEv>
 
 000001e8 <__vector_4>:
+		}
 	}
-}
-
-//GPIO interrupt which sends over the global count to the flash device
-ISR(PCINT1_vect)
-{
+	
+	//GPIO interrupt which sends over the global count to the flash device
+	ISR(PCINT1_vect)
+	{
  1e8:	1f 92       	push	r1
  1ea:	0f 92       	push	r0
  1ec:	0f b6       	in	r0, 0x3f	; 63
@@ -399,60 +399,60 @@ ISR(PCINT1_vect)
  208:	df 93       	push	r29
  20a:	ef 93       	push	r30
  20c:	ff 93       	push	r31
-	unsigned char old_val = 0;
-	unsigned char new_val = 0;
-	unsigned char sum = 0;
-
-	//Run only when the signal changes to high
-	if(PORTC & _BV(PORTC5))
+		unsigned char old_val = 0;
+		unsigned char new_val = 0;
+		unsigned char sum = 0;
+	
+		//Run only when the signal changes to high
+		if(PORTC & _BV(PORTC5))
  20e:	45 9b       	sbis	0x08, 5	; 8
  210:	20 c0       	rjmp	.+64     	; 0x252 <__vector_4+0x6a>
-	{
-		old_val = FLASH::read(0xBEEF);	
+		{
+			old_val = FLASH::read(0xBEEF);	
  212:	6f ee       	ldi	r22, 0xEF	; 239
  214:	7e eb       	ldi	r23, 0xBE	; 190
  216:	80 e0       	ldi	r24, 0x00	; 0
  218:	90 e0       	ldi	r25, 0x00	; 0
- 21a:	0e 94 60 00 	call	0xc0	; 0xc0 <_ZN5FLASH4readEm>
+ 21a:	0e 94 60 00 	call	0xc0	; 0xc0 <_ZN14Flash_Verifier5FLASH4readEm>
  21e:	d8 2f       	mov	r29, r24
-		new_val = TIM0.get_count();
+			new_val = TIM0.get_count();
  220:	80 e0       	ldi	r24, 0x00	; 0
  222:	91 e0       	ldi	r25, 0x01	; 1
- 224:	0e 94 81 01 	call	0x302	; 0x302 <_ZN5Timer9get_countEv>
+ 224:	0e 94 81 01 	call	0x302	; 0x302 <_ZN14Flash_Verifier5Timer9get_countEv>
  228:	c8 2f       	mov	r28, r24
-		sum = old_val + new_val;
+			sum = old_val + new_val;
  22a:	8d 2f       	mov	r24, r29
  22c:	8c 0f       	add	r24, r28
-
-		if(sum < old_val || sum < new_val)
+	
+			if(sum < old_val || sum < new_val)
  22e:	8d 17       	cp	r24, r29
  230:	10 f0       	brcs	.+4      	; 0x236 <__vector_4+0x4e>
  232:	8c 17       	cp	r24, r28
  234:	20 f4       	brcc	.+8      	; 0x23e <__vector_4+0x56>
-		{//If the new value rolls over the value in flash
-			//Signal a roll-over
-			GPIO::activate_LED(ASSERT_LED);
+			{//If the new value rolls over the value in flash
+				//Signal a roll-over
+				GPIO::activate_LED(ASSERT_LED);
  236:	80 e0       	ldi	r24, 0x00	; 0
- 238:	0e 94 c4 00 	call	0x188	; 0x188 <_ZN4GPIO12activate_LEDEc>
+ 238:	0e 94 c4 00 	call	0x188	; 0x188 <_ZN14Flash_Verifier4GPIO12activate_LEDEc>
  23c:	03 c0       	rjmp	.+6      	; 0x244 <__vector_4+0x5c>
-		}
-		else
-		{//If the new value doesn't roll over the value in flash
-			//Signal a lack of a roll-over
-			GPIO::deactivate_LED(ASSERT_LED);
+			}
+			else
+			{//If the new value doesn't roll over the value in flash
+				//Signal a lack of a roll-over
+				GPIO::deactivate_LED(ASSERT_LED);
  23e:	80 e0       	ldi	r24, 0x00	; 0
- 240:	0e 94 cf 00 	call	0x19e	; 0x19e <_ZN4GPIO14deactivate_LEDEc>
-		}
-
-		FLASH::write(0xBEEF, new_val);
+ 240:	0e 94 cf 00 	call	0x19e	; 0x19e <_ZN14Flash_Verifier4GPIO14deactivate_LEDEc>
+			}
+	
+			FLASH::write(0xBEEF, new_val);
  244:	4c 2f       	mov	r20, r28
  246:	6f ee       	ldi	r22, 0xEF	; 239
  248:	7e eb       	ldi	r23, 0xBE	; 190
  24a:	80 e0       	ldi	r24, 0x00	; 0
  24c:	90 e0       	ldi	r25, 0x00	; 0
- 24e:	0e 94 80 00 	call	0x100	; 0x100 <_ZN5FLASH5writeEmh>
+ 24e:	0e 94 80 00 	call	0x100	; 0x100 <_ZN14Flash_Verifier5FLASH5writeEmh>
+		}
 	}
-}
  252:	ff 91       	pop	r31
  254:	ef 91       	pop	r30
  256:	df 91       	pop	r29
@@ -474,114 +474,114 @@ ISR(PCINT1_vect)
  276:	18 95       	reti
 
 00000278 <main>:
-#include "SPI.h"
-#include "FLASH_drv.h"
+
+using namespace std;
 
 int main(void)
 {
-	GPIO::init();
- 278:	0e 94 b0 00 	call	0x160	; 0x160 <_ZN4GPIO4initEv>
-	TIM0.init();
+	Flash_Verifier::GPIO::init();
+ 278:	0e 94 b0 00 	call	0x160	; 0x160 <_ZN14Flash_Verifier4GPIO4initEv>
+	Flash_Verifier::TIM0.init();
  27c:	80 e0       	ldi	r24, 0x00	; 0
  27e:	91 e0       	ldi	r25, 0x01	; 1
- 280:	0e 94 63 01 	call	0x2c6	; 0x2c6 <_ZN5Timer4initEv>
-	SPI::master_init();
- 284:	0e 94 48 01 	call	0x290	; 0x290 <_ZN3SPI11master_initEv>
-	FLASH::init();
- 288:	0e 94 48 00 	call	0x90	; 0x90 <_ZN5FLASH4initEv>
+ 280:	0e 94 63 01 	call	0x2c6	; 0x2c6 <_ZN14Flash_Verifier5Timer4initEv>
+	Flash_Verifier::SPI::master_init();
+ 284:	0e 94 48 01 	call	0x290	; 0x290 <_ZN14Flash_Verifier3SPI11master_initEv>
+	Flash_Verifier::FLASH::init();
+ 288:	0e 94 48 00 	call	0x90	; 0x90 <_ZN14Flash_Verifier5FLASH4initEv>
 
 	//Enable the interrupts
 	sei();
  28c:	78 94       	sei
  28e:	ff cf       	rjmp	.-2      	; 0x28e <main+0x16>
 
-00000290 <_ZN3SPI11master_initEv>:
-
-//Init function
-void SPI::master_init()
-{
-	//Initialize the MOSI & SCK pins on PORT C
-	DDR_SPI |= _BV(DD_MOSI) | _BV(DD_SCK) ;
+00000290 <_ZN14Flash_Verifier3SPI11master_initEv>:
+	
+	//Init function
+	void SPI::master_init()
+	{
+		//Initialize the MOSI & SCK pins on PORT C
+		DDR_SPI |= _BV(DD_MOSI) | _BV(DD_SCK) ;
  290:	84 b1       	in	r24, 0x04	; 4
  292:	88 62       	ori	r24, 0x28	; 40
  294:	84 b9       	out	0x04, r24	; 4
-
-	//Enable SPI in master mode & set clock rate to f_clk/16
-	//Both this device & the flash memory will operate in SPI mode 0
-	SPCR |= _BV(SPE) | _BV(MSTR) | _BV(SPR0);
+	
+		//Enable SPI in master mode & set clock rate to f_clk/16
+		//Both this device & the flash memory will operate in SPI mode 0
+		SPCR |= _BV(SPE) | _BV(MSTR) | _BV(SPR0);
  296:	8c b5       	in	r24, 0x2c	; 44
  298:	81 65       	ori	r24, 0x51	; 81
  29a:	8c bd       	out	0x2c, r24	; 44
  29c:	08 95       	ret
 
-0000029e <_ZN3SPI9master_TxEh>:
-
-//Send over a byte of data 
-void SPI::master_Tx(unsigned char data)
-{
-	//Start the transmission
-	SPDR = data;
- 29e:	8e bd       	out	0x2e, r24	; 46
+0000029e <_ZN14Flash_Verifier3SPI9master_TxEh>:
 	
-	//Wait until the transmission is over
-	while(!(SPSR & _BV(SPIF))) {}
+	//Send over a byte of data 
+	void SPI::master_Tx(unsigned char data)
+	{
+		//Start the transmission
+		SPDR = data;
+ 29e:	8e bd       	out	0x2e, r24	; 46
+		
+		//Wait until the transmission is over
+		while(!(SPSR & _BV(SPIF))) {}
  2a0:	0d b4       	in	r0, 0x2d	; 45
  2a2:	07 fe       	sbrs	r0, 7
- 2a4:	fd cf       	rjmp	.-6      	; 0x2a0 <_ZN3SPI9master_TxEh+0x2>
-}
+ 2a4:	fd cf       	rjmp	.-6      	; 0x2a0 <_ZN14Flash_Verifier3SPI9master_TxEh+0x2>
+	}
  2a6:	08 95       	ret
 
-000002a8 <_ZN3SPI9master_RxEv>:
-
-//Receive a byte of data
-unsigned char SPI::master_Rx()
-{
-	//Send a dummy byte
-	SPDR = 0xFF;
+000002a8 <_ZN14Flash_Verifier3SPI9master_RxEv>:
+	
+	//Receive a byte of data
+	unsigned char SPI::master_Rx()
+	{
+		//Send a dummy byte
+		SPDR = 0xFF;
  2a8:	8f ef       	ldi	r24, 0xFF	; 255
  2aa:	8e bd       	out	0x2e, r24	; 46
-
-	//Wait until data is received
-	while(!(SPSR & _BV(SPIF))) {}
+	
+		//Wait until data is received
+		while(!(SPSR & _BV(SPIF))) {}
  2ac:	0d b4       	in	r0, 0x2d	; 45
  2ae:	07 fe       	sbrs	r0, 7
- 2b0:	fd cf       	rjmp	.-6      	; 0x2ac <_ZN3SPI9master_RxEv+0x4>
-
-	return (unsigned char) SPDR;
+ 2b0:	fd cf       	rjmp	.-6      	; 0x2ac <_ZN14Flash_Verifier3SPI9master_RxEv+0x4>
+	
+		return (unsigned char) SPDR;
  2b2:	8e b5       	in	r24, 0x2e	; 46
-}
+	}
  2b4:	08 95       	ret
 
-000002b6 <_ZN3SPI6selectEv>:
-
-//Pull the 1 CS line low & select a device & begin communication
-void SPI::select()
-{
-	DDR_SPI &= ~_BV(CS_FLASH);
+000002b6 <_ZN14Flash_Verifier3SPI6selectEv>:
+	
+	//Pull the 1 CS line low & select a device & begin communication
+	void SPI::select()
+	{
+		DDR_SPI &= ~_BV(CS_FLASH);
  2b6:	84 b1       	in	r24, 0x04	; 4
  2b8:	8b 7f       	andi	r24, 0xFB	; 251
  2ba:	84 b9       	out	0x04, r24	; 4
  2bc:	08 95       	ret
 
-000002be <_ZN3SPI8deselectEv>:
-}
-
-//Pull the 1 CS line high to deselect a device & end communication
-void SPI::deselect()
-{
-	DDR_SPI |= _BV(CS_FLASH);
+000002be <_ZN14Flash_Verifier3SPI8deselectEv>:
+	}
+	
+	//Pull the 1 CS line high to deselect a device & end communication
+	void SPI::deselect()
+	{
+		DDR_SPI |= _BV(CS_FLASH);
  2be:	84 b1       	in	r24, 0x04	; 4
  2c0:	84 60       	ori	r24, 0x04	; 4
  2c2:	84 b9       	out	0x04, r24	; 4
  2c4:	08 95       	ret
 
-000002c6 <_ZN5Timer4initEv>:
-}
-
-//Enable the timer
-void Timer::enable()
-{
-	TCCR0B |= _BV(CS01);
+000002c6 <_ZN14Flash_Verifier5Timer4initEv>:
+	}
+	
+	//Enable the timer
+	void Timer::enable()
+	{
+		TCCR0B |= _BV(CS01);
  2c6:	dc 01       	movw	r26, r24
  2c8:	94 b5       	in	r25, 0x24	; 36
  2ca:	92 60       	ori	r25, 0x02	; 2
@@ -599,44 +599,44 @@ void Timer::enable()
  2e2:	1c 92       	st	X, r1
  2e4:	08 95       	ret
 
-000002e6 <_ZN5Timer7disableEv>:
+000002e6 <_ZN14Flash_Verifier5Timer7disableEv>:
  2e6:	85 b5       	in	r24, 0x25	; 37
  2e8:	8d 7f       	andi	r24, 0xFD	; 253
  2ea:	85 bd       	out	0x25, r24	; 37
  2ec:	08 95       	ret
 
-000002ee <_ZN5Timer9inc_countEv>:
-}
-
-//Increment the time if it's not max value yet. Else, roll over
-void Timer::inc_count()
-{
-	TIM0.count = (TIM0.count != 255) ? (TIM0.count + 1) : 0;
+000002ee <_ZN14Flash_Verifier5Timer9inc_countEv>:
+	}
+	
+	//Increment the time if it's not max value yet. Else, roll over
+	void Timer::inc_count()
+	{
+		TIM0.count = (TIM0.count != 255) ? (TIM0.count + 1) : 0;
  2ee:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
  2f2:	8f 3f       	cpi	r24, 0xFF	; 255
- 2f4:	11 f0       	breq	.+4      	; 0x2fa <_ZN5Timer9inc_countEv+0xc>
+ 2f4:	11 f0       	breq	.+4      	; 0x2fa <_ZN14Flash_Verifier5Timer9inc_countEv+0xc>
  2f6:	8f 5f       	subi	r24, 0xFF	; 255
- 2f8:	01 c0       	rjmp	.+2      	; 0x2fc <_ZN5Timer9inc_countEv+0xe>
+ 2f8:	01 c0       	rjmp	.+2      	; 0x2fc <_ZN14Flash_Verifier5Timer9inc_countEv+0xe>
  2fa:	80 e0       	ldi	r24, 0x00	; 0
  2fc:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
  300:	08 95       	ret
 
-00000302 <_ZN5Timer9get_countEv>:
-
-//Get method
-unsigned char Timer::get_count()
-{
-	return count;
-}
+00000302 <_ZN14Flash_Verifier5Timer9get_countEv>:
+	
+	//Get method
+	unsigned char Timer::get_count()
+	{
+		return count;
+	}
  302:	fc 01       	movw	r30, r24
  304:	80 81       	ld	r24, Z
  306:	08 95       	ret
 
 00000308 <__vector_14>:
-
-//Interrupt which activates on the hardware timer ticks
-ISR(TIMER0_COMPA_vect)
-{
+	
+	//Interrupt which activates on the hardware timer ticks
+	ISR(TIMER0_COMPA_vect)
+	{
  308:	1f 92       	push	r1
  30a:	0f 92       	push	r0
  30c:	0f b6       	in	r0, 0x3f	; 63
@@ -654,11 +654,11 @@ ISR(TIMER0_COMPA_vect)
  324:	bf 93       	push	r27
  326:	ef 93       	push	r30
  328:	ff 93       	push	r31
-	TIM0.inc_count();
+		TIM0.inc_count();
  32a:	80 e0       	ldi	r24, 0x00	; 0
  32c:	91 e0       	ldi	r25, 0x01	; 1
- 32e:	0e 94 77 01 	call	0x2ee	; 0x2ee <_ZN5Timer9inc_countEv>
-}
+ 32e:	0e 94 77 01 	call	0x2ee	; 0x2ee <_ZN14Flash_Verifier5Timer9inc_countEv>
+	}
  332:	ff 91       	pop	r31
  334:	ef 91       	pop	r30
  336:	bf 91       	pop	r27

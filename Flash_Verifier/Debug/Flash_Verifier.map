@@ -24,7 +24,7 @@ Discarded input sections
  .text          0x00000000        0x0 timer.o
  .data          0x00000000        0x0 timer.o
  .bss           0x00000000        0x0 timer.o
- .text._ZN5Timer6enableEv
+ .text._ZN14Flash_Verifier5Timer6enableEv
                 0x00000000        0x8 timer.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
@@ -274,62 +274,62 @@ END GROUP
                 0x0000008c                __vector_20
                 0x00000090                . = ALIGN (0x2)
  *(.text.*)
- .text._ZN5FLASH4initEv
+ .text._ZN14Flash_Verifier5FLASH4initEv
                 0x00000090        0x6 FLASH_drv.o
-                0x00000090                _ZN5FLASH4initEv
- .text._ZN5FLASH8CMD_ADDREhm
+                0x00000090                _ZN14Flash_Verifier5FLASH4initEv
+ .text._ZN14Flash_Verifier5FLASH8CMD_ADDREhm
                 0x00000096       0x2a FLASH_drv.o
-                0x00000096                _ZN5FLASH8CMD_ADDREhm
- .text._ZN5FLASH4readEm
+                0x00000096                _ZN14Flash_Verifier5FLASH8CMD_ADDREhm
+ .text._ZN14Flash_Verifier5FLASH4readEm
                 0x000000c0       0x40 FLASH_drv.o
-                0x000000c0                _ZN5FLASH4readEm
- .text._ZN5FLASH5writeEmh
+                0x000000c0                _ZN14Flash_Verifier5FLASH4readEm
+ .text._ZN14Flash_Verifier5FLASH5writeEmh
                 0x00000100       0x60 FLASH_drv.o
-                0x00000100                _ZN5FLASH5writeEmh
- .text._ZN4GPIO4initEv
+                0x00000100                _ZN14Flash_Verifier5FLASH5writeEmh
+ .text._ZN14Flash_Verifier4GPIO4initEv
                 0x00000160       0x28 gpio.o
-                0x00000160                _ZN4GPIO4initEv
- .text._ZN4GPIO12activate_LEDEc
+                0x00000160                _ZN14Flash_Verifier4GPIO4initEv
+ .text._ZN14Flash_Verifier4GPIO12activate_LEDEc
                 0x00000188       0x16 gpio.o
-                0x00000188                _ZN4GPIO12activate_LEDEc
- .text._ZN4GPIO14deactivate_LEDEc
+                0x00000188                _ZN14Flash_Verifier4GPIO12activate_LEDEc
+ .text._ZN14Flash_Verifier4GPIO14deactivate_LEDEc
                 0x0000019e       0x18 gpio.o
-                0x0000019e                _ZN4GPIO14deactivate_LEDEc
- .text._ZN4GPIO14terminal_blinkEv
+                0x0000019e                _ZN14Flash_Verifier4GPIO14deactivate_LEDEc
+ .text._ZN14Flash_Verifier4GPIO14terminal_blinkEv
                 0x000001b6       0x32 gpio.o
-                0x000001b6                _ZN4GPIO14terminal_blinkEv
+                0x000001b6                _ZN14Flash_Verifier4GPIO14terminal_blinkEv
  .text.__vector_4
                 0x000001e8       0x90 gpio.o
                 0x000001e8                __vector_4
  .text.main     0x00000278       0x18 main.o
                 0x00000278                main
- .text._ZN3SPI11master_initEv
+ .text._ZN14Flash_Verifier3SPI11master_initEv
                 0x00000290        0xe SPI.o
-                0x00000290                _ZN3SPI11master_initEv
- .text._ZN3SPI9master_TxEh
+                0x00000290                _ZN14Flash_Verifier3SPI11master_initEv
+ .text._ZN14Flash_Verifier3SPI9master_TxEh
                 0x0000029e        0xa SPI.o
-                0x0000029e                _ZN3SPI9master_TxEh
- .text._ZN3SPI9master_RxEv
+                0x0000029e                _ZN14Flash_Verifier3SPI9master_TxEh
+ .text._ZN14Flash_Verifier3SPI9master_RxEv
                 0x000002a8        0xe SPI.o
-                0x000002a8                _ZN3SPI9master_RxEv
- .text._ZN3SPI6selectEv
+                0x000002a8                _ZN14Flash_Verifier3SPI9master_RxEv
+ .text._ZN14Flash_Verifier3SPI6selectEv
                 0x000002b6        0x8 SPI.o
-                0x000002b6                _ZN3SPI6selectEv
- .text._ZN3SPI8deselectEv
+                0x000002b6                _ZN14Flash_Verifier3SPI6selectEv
+ .text._ZN14Flash_Verifier3SPI8deselectEv
                 0x000002be        0x8 SPI.o
-                0x000002be                _ZN3SPI8deselectEv
- .text._ZN5Timer4initEv
+                0x000002be                _ZN14Flash_Verifier3SPI8deselectEv
+ .text._ZN14Flash_Verifier5Timer4initEv
                 0x000002c6       0x20 timer.o
-                0x000002c6                _ZN5Timer4initEv
- .text._ZN5Timer7disableEv
+                0x000002c6                _ZN14Flash_Verifier5Timer4initEv
+ .text._ZN14Flash_Verifier5Timer7disableEv
                 0x000002e6        0x8 timer.o
-                0x000002e6                _ZN5Timer7disableEv
- .text._ZN5Timer9inc_countEv
+                0x000002e6                _ZN14Flash_Verifier5Timer7disableEv
+ .text._ZN14Flash_Verifier5Timer9inc_countEv
                 0x000002ee       0x14 timer.o
-                0x000002ee                _ZN5Timer9inc_countEv
- .text._ZN5Timer9get_countEv
+                0x000002ee                _ZN14Flash_Verifier5Timer9inc_countEv
+ .text._ZN14Flash_Verifier5Timer9get_countEv
                 0x00000302        0x6 timer.o
-                0x00000302                _ZN5Timer9get_countEv
+                0x00000302                _ZN14Flash_Verifier5Timer9get_countEv
  .text.__vector_14
                 0x00000308       0x4c timer.o
                 0x00000308                __vector_14
@@ -376,8 +376,9 @@ END GROUP
                 0x00800100                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.TIM0      0x00800100        0x1 timer.o
-                0x00800100                TIM0
+ .bss._ZN14Flash_Verifier4TIM0E
+                0x00800100        0x1 timer.o
+                0x00800100                _ZN14Flash_Verifier4TIM0E
  *(COMMON)
                 0x00800101                PROVIDE (__bss_end, .)
                 0x00000358                __data_load_start = LOADADDR (.data)
@@ -472,32 +473,32 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1427
+.debug_info     0x00000000     0x1482
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_info    0x000005f4      0x42b FLASH_drv.o
- .debug_info    0x00000a1f      0x409 gpio.o
- .debug_info    0x00000e28      0x28d main.o
- .debug_info    0x000010b5      0x13b SPI.o
- .debug_info    0x000011f0      0x237 timer.o
+ .debug_info    0x000005f4      0x437 FLASH_drv.o
+ .debug_info    0x00000a2b      0x41b gpio.o
+ .debug_info    0x00000e46      0x2a7 main.o
+ .debug_info    0x000010ed      0x143 SPI.o
+ .debug_info    0x00001230      0x252 timer.o
 
-.debug_abbrev   0x00000000      0xca4
+.debug_abbrev   0x00000000      0xd46
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_abbrev  0x000005a2      0x1be FLASH_drv.o
- .debug_abbrev  0x00000760      0x23b gpio.o
- .debug_abbrev  0x0000099b      0x15e main.o
- .debug_abbrev  0x00000af9       0xb5 SPI.o
- .debug_abbrev  0x00000bae       0xf6 timer.o
+ .debug_abbrev  0x000005a2      0x1e2 FLASH_drv.o
+ .debug_abbrev  0x00000784      0x252 gpio.o
+ .debug_abbrev  0x000009d6      0x182 main.o
+ .debug_abbrev  0x00000b58       0xc0 SPI.o
+ .debug_abbrev  0x00000c18      0x12e timer.o
 
-.debug_line     0x00000000      0x76f
+.debug_line     0x00000000      0x77d
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000134      0x196 FLASH_drv.o
  .debug_line    0x000002ca      0x204 gpio.o
- .debug_line    0x000004ce       0xe8 main.o
- .debug_line    0x000005b6       0xc5 SPI.o
- .debug_line    0x0000067b       0xf4 timer.o
+ .debug_line    0x000004ce       0xf6 main.o
+ .debug_line    0x000005c4       0xc5 SPI.o
+ .debug_line    0x00000689       0xf4 timer.o
 
 .debug_frame    0x00000000      0x28c
  *(.debug_frame)
@@ -507,19 +508,19 @@ END GROUP
  .debug_frame   0x0000016c       0x64 SPI.o
  .debug_frame   0x000001d0       0xbc timer.o
 
-.debug_str      0x00000000      0x63a
+.debug_str      0x00000000      0x783
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_str     0x00000208      0x387 FLASH_drv.o
-                                0x3df (size before relaxing)
- .debug_str     0x0000058f       0x6b gpio.o
-                                0x393 (size before relaxing)
- .debug_str     0x000005fa       0x13 main.o
-                                0x3ce (size before relaxing)
- .debug_str     0x0000060d        0xd SPI.o
-                                0x233 (size before relaxing)
- .debug_str     0x0000061a       0x20 timer.o
-                                0x24b (size before relaxing)
+ .debug_str     0x00000208      0x4d0 FLASH_drv.o
+                                0x528 (size before relaxing)
+ .debug_str     0x000006d8       0x6b gpio.o
+                                0x48c (size before relaxing)
+ .debug_str     0x00000743       0x13 main.o
+                                0x517 (size before relaxing)
+ .debug_str     0x00000756        0xd SPI.o
+                                0x292 (size before relaxing)
+ .debug_str     0x00000763       0x20 timer.o
+                                0x2c4 (size before relaxing)
 
 .debug_loc      0x00000000      0x559
  *(.debug_loc)

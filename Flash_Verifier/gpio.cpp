@@ -17,71 +17,74 @@
 #include "timer.h"
 #include "gpio.h"
 
-#define ASSERT_LED PORTB0
-#define ERROR_LED PORTB1
-
-//Init function
-void GPIO::init()
+namespace Flash_Verifier
 {
-	//Initialize the port for blinking as output
-	DDRB |= _BV(ASSERT_LED);
-	DDRB |= _BV(ERROR_LED);
-
-	//Enable the GPIO pin-change interrupt on pin 28
-	PCMSK1 |= _BV(PCINT13);
-	PCICR |= _BV(PCIE1);
-	DDRC &= ~_BV(PORTC5);
-}
-
-//Assert the signal LED
-void GPIO::activate_LED(char pin)
-{
-	PORTB |= _BV(pin);
-}
-
-//Deassert the signal LED
-void GPIO::deactivate_LED(char pin)
-{
-	PORTB &= ~_BV(pin);
-}
-
-//Display to the user that a terminal error has occurred 
-void GPIO::terminal_blink()
-{
-	while(1)
+	#define ASSERT_LED PORTB0
+	#define ERROR_LED PORTB1
+	
+	//Init function
+	void GPIO::init()
 	{
-		activate_LED(ERROR_LED);
-		_delay_ms(100);
-		deactivate_LED(ERROR_LED);
-		_delay_ms(100);
+		//Initialize the port for blinking as output
+		DDRB |= _BV(ASSERT_LED);
+		DDRB |= _BV(ERROR_LED);
+	
+		//Enable the GPIO pin-change interrupt on pin 28
+		PCMSK1 |= _BV(PCINT13);
+		PCICR |= _BV(PCIE1);
+		DDRC &= ~_BV(PORTC5);
 	}
-}
-
-//GPIO interrupt which sends over the global count to the flash device
-ISR(PCINT1_vect)
-{
-	unsigned char old_val = 0;
-	unsigned char new_val = 0;
-	unsigned char sum = 0;
-
-	//Run only when the signal changes to high
-	if(PORTC & _BV(PORTC5))
+	
+	//Assert the signal LED
+	void GPIO::activate_LED(char pin)
 	{
-		old_val = FLASH::read(0xBEEF);	
-		new_val = TIM0.get_count();
-		sum = old_val + new_val;
-
-		if(sum < old_val || sum < new_val)
-		{//If the new value rolls over the value in flash
-			//Signal a roll-over
-			GPIO::activate_LED(ASSERT_LED);
+		PORTB |= _BV(pin);
+	}
+	
+	//Deassert the signal LED
+	void GPIO::deactivate_LED(char pin)
+	{
+		PORTB &= ~_BV(pin);
+	}
+	
+	//Display to the user that a terminal error has occurred 
+	void GPIO::terminal_blink()
+	{
+		while(1)
+		{
+			activate_LED(ERROR_LED);
+			_delay_ms(100);
+			deactivate_LED(ERROR_LED);
+			_delay_ms(100);
 		}
-		else
-		{//If the new value doesn't roll over the value in flash
-			//Signal a lack of a roll-over
-			GPIO::deactivate_LED(ASSERT_LED);
+	}
+	
+	//GPIO interrupt which sends over the global count to the flash device
+	ISR(PCINT1_vect)
+	{
+		unsigned char old_val = 0;
+		unsigned char new_val = 0;
+		unsigned char sum = 0;
+	
+		//Run only when the signal changes to high
+		if(PORTC & _BV(PORTC5))
+		{
+			old_val = FLASH::read(0xBEEF);	
+			new_val = TIM0.get_count();
+			sum = old_val + new_val;
+	
+			if(sum < old_val || sum < new_val)
+			{//If the new value rolls over the value in flash
+				//Signal a roll-over
+				GPIO::activate_LED(ASSERT_LED);
+			}
+			else
+			{//If the new value doesn't roll over the value in flash
+				//Signal a lack of a roll-over
+				GPIO::deactivate_LED(ASSERT_LED);
+			}
+	
+			FLASH::write(0xBEEF, new_val);
 		}
-
-		FLASH::write(0xBEEF, new_val);
 	}
 }
