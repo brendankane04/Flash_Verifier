@@ -37,11 +37,11 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../FLASH_drv.cpp \
-../gpio.cpp \
+../FLASH_DRV.cpp \
+../GPIO.cpp \
 ../main.cpp \
 ../SPI.cpp \
-../timer.cpp
+../TIMER.cpp
 
 
 PREPROCESSING_SRCS += 
@@ -51,32 +51,32 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-FLASH_drv.o \
-gpio.o \
+FLASH_DRV.o \
+GPIO.o \
 main.o \
 SPI.o \
-timer.o
+TIMER.o
 
 OBJS_AS_ARGS +=  \
-FLASH_drv.o \
-gpio.o \
+FLASH_DRV.o \
+GPIO.o \
 main.o \
 SPI.o \
-timer.o
+TIMER.o
 
 C_DEPS +=  \
-FLASH_drv.d \
-gpio.d \
+FLASH_DRV.d \
+GPIO.d \
 main.d \
 SPI.d \
-timer.d
+TIMER.d
 
 C_DEPS_AS_ARGS +=  \
-FLASH_drv.d \
-gpio.d \
+FLASH_DRV.d \
+GPIO.d \
 main.d \
 SPI.d \
-timer.d
+TIMER.d
 
 OUTPUT_FILE_PATH +=Flash_Verifier.elf
 
@@ -92,14 +92,14 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-./FLASH_drv.o: .././FLASH_drv.cpp
+./FLASH_DRV.o: .././FLASH_DRV.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
-./gpio.o: .././gpio.cpp
+./GPIO.o: .././GPIO.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
@@ -120,7 +120,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-./timer.o: .././timer.cpp
+./TIMER.o: .././TIMER.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

@@ -12,17 +12,19 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "gpio.h"
-#include "timer.h"
+#include "GPIO.h"
+#include "TIMER.h"
 #include "SPI.h"
-#include "FLASH_drv.h"
+#include "FLASH_DRV.h"
+
+using namespace std;
 
 int main(void)
 {
-	GPIO::init();
-	TIM0.init();
-	SPI::master_init();
-	FLASH::init();
+	Flash_Verifier::GPIO::init();
+	Flash_Verifier::TIM0.init();
+	Flash_Verifier::SPI::master_init();
+	Flash_Verifier::FLASH::init();
 
 	//Enable the interrupts
 	sei();
@@ -32,4 +34,3 @@ int main(void)
 
 	}
 }
-

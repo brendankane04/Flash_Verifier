@@ -9,13 +9,16 @@
 #ifndef GPIO_H_
 #define GPIO_H_
 
-class GPIO 
+namespace Flash_Verifier
 {
-	public:
-		static void init();
-		static void activate_LED(char);
-		static void deactivate_LED(char);
-		static void terminal_blink();
-};
+	class GPIO 
+	{
+		public:
+			static void init();
+			static void activate_LED(char);
+			static void deactivate_LED(char);
+			static void terminal_blink();
+	};
+}
 
 #endif /* GPIO_H_ */

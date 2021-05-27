@@ -5,22 +5,24 @@
  *  Author: brend
  */ 
 
-
 #ifndef TIMER_H_
 #define TIMER_H_
 
-class Timer
+namespace Flash_Verifier
 {
-	unsigned char count;
+	class Timer
+	{
+		unsigned char count;
+	
+		public:
+			void init();
+			void disable();
+			void enable();
+			void inc_count();
+			unsigned char get_count();
+	};
 
-	public:
-		void init();
-		void disable();
-		void enable();
-		void inc_count();
-		unsigned char get_count();
-};
-
-extern Timer TIM0;
+	extern Timer TIM0;
+}
 
 #endif /* TIMER_H_ */
