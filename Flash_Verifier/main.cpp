@@ -24,7 +24,6 @@ using namespace std;
 int main(void)
 {
 	Flash_Verifier::GPIO::init();
-	Flash_Verifier::TIM0.init();
 	Flash_Verifier::SPI::master_init();
 	Flash_Verifier::FLASH::init();
 
